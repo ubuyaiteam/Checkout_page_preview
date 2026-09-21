@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart & Checkout - Ubuy India</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ubuy: {
+                            orange: '#F7941D',
+                            hover: '#E08213',
+                            dark: '#1C1C1C',
+                            bg: '#F5F5F7',
+                            card: '#FFFFFF',
+                            border: '#E2E8F0'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f4f5f8;
+            font-family: 'Inter', sans-serif;
+        }
+        .ubuy-gradient-btn {
+            background: linear-gradient(180deg, #FF9900 0%, #E67E22 100%);
+        }
+        .ubuy-gradient-btn:hover {
+            background: linear-gradient(180deg, #E68A00 0%, #D35400 100%);
+        }
+        /* Dotted flight line animation effect */
+        .flight-line {
+            background-image: linear-gradient(to right, #F7941D 50%, rgba(255,255,255,0) 0%);
+            background-position: bottom;
+            background-size: 8px 2px;
+            background-repeat: repeat-x;
+        }
+    </style>
+</head>
+<body class="text-slate-800 bg-[#f4f5f8] antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-slate-900 text-slate-300 text-xs py-2 px-4">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center space-x-2">
+                <span class="bg-amber-500 text-slate-950 font-bold px-1.5 py-0.5 rounded text-[10px] uppercase">Global Store</span>
+                <span>Continue shopping from over 300M+ international items across US, UK, JP & EU stores.</span>
+            </div>
+            <div class="flex items-center space-x-6 text-slate-400">
+                <span class="hover:text-white cursor-pointer transition">Track Order</span>
+                <span class="hover:text-white cursor-pointer transition">Customer Support</span>
+                <span class="hover:text-white cursor-pointer text-amber-400 font-medium">Download Ubuy App</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+            <!-- Brand Logo -->
+            <div class="flex items-center space-x-6">
+                <a href="#" class="flex items-center space-x-1 text-2xl font-black tracking-tight text-slate-900">
+                    <span class="text-3xl font-extrabold text-slate-900 tracking-tighter">U<span class="text-[#F7941D]">buy</span></span>
+                    <span class="text-xs bg-slate-100 text-slate-600 font-bold px-1.5 py-0.5 rounded ml-1 border border-slate-200">.co.in</span>
+                </a>
+                
+                <div class="hidden lg:flex items-center space-x-1 text-xs font-semibold text-slate-700 hover:text-[#F7941D] cursor-pointer">
+                    <i data-lucide="compass" class="w-4 h-4 text-[#F7941D]"></i>
+                    <span>Explore</span>
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="flex-1 max-w-2xl mx-4">
+                <div class="relative flex items-center">
+                    <input type="text" placeholder="Search from 300M+ Premium Products Around the World..." class="w-full pl-4 pr-24 py-2 bg-slate-50 border border-slate-300 text-xs sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F7941D] focus:bg-white transition-all">
+                    
+                    <button class="absolute right-1 px-4 py-1.5 bg-[#F7941D] hover:bg-[#E08213] text-white rounded-md text-xs font-medium transition flex items-center gap-1">
+                        <i data-lucide="search" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Header Right Menu -->
+            <div class="flex items-center space-x-5 text-xs font-medium text-slate-700">
+                <!-- Country selector -->
+                <div class="hidden sm:flex items-center space-x-2 border border-slate-200 px-2.5 py-1.5 rounded-lg bg-slate-50">
+                    <span class="text-base">🇮🇳</span>
+                    <span class="font-bold">India</span>
+                    <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400"></i>
+                </div>
+
+                <div class="hidden sm:flex items-center space-x-1 hover:text-[#F7941D] cursor-pointer">
+                    <i data-lucide="user" class="w-4 h-4"></i>
+                    <span>Account</span>
+                </div>
+
+                <!-- Cart Icon -->
+                <div class="relative cursor-pointer flex items-center">
+                    <div class="p-2 bg-slate-100 hover:bg-amber-50 rounded-lg text-slate-800 hover:text-[#F7941D] transition relative">
+                        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                        <span id="headerCartCount" class="absolute -top-1.5 -right-1.5 bg-[#F7941D] text-white font-bold text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
+                            1
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
+        <!-- Back link -->
+        <div class="mb-4">
+            <a href="#" class="inline-flex items-center text-xs text-slate-500 hover:text-[#F7941D] font-medium transition gap-1">
+                <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                <span>Continue Shopping</span>
+            </a>
+            <h1 class="text-xl sm:text-2xl font-bold text-slate-900 mt-2 flex items-center gap-2">
+                Shopping Cart
+                <span id="cartHeaderQty" class="text-xs font-medium text-slate-500 bg-slate-200 px-2.5 py-0.5 rounded-full">(1 item)</span>
+            </h1>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Left Column: Main Cart Items & Proposed Enhancements -->
+            <div class="lg:col-span-8 space-y-6">
+
+                <!-- Global Shipping Tracker Bar (Ubuy Spec) -->
+                <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
+                    <div class="flex items-center justify-between text-xs font-semibold text-slate-700 mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-4 inline-block bg-slate-200 rounded overflow-hidden border border-slate-300 text-center text-[10px] leading-tight font-bold">🇺🇸</span>
+                            <span>From: <strong class="text-slate-900">US Store</strong></span>
+                        </div>
+                        <div class="flex items-center gap-1 text-[#F7941D]">
+                            <i data-lucide="plane" class="w-4 h-4"></i>
+                            <span class="font-bold">International Express Air Delivery</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-4 inline-block bg-slate-200 rounded overflow-hidden border border-slate-300 text-center text-[10px] leading-tight font-bold">🇮🇳</span>
+                            <span>To: <strong class="text-slate-900">India</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- Visual Flight Line Bar -->
+                    <div class="relative flex items-center justify-between my-3 px-4">
+                        <div class="w-3 h-3 rounded-full bg-[#F7941D] ring-4 ring-orange-100 z-10"></div>
+                        <div class="flex-1 border-b-2 border-dashed border-[#F7941D] relative mx-2 flex items-center justify-center">
+                            <i data-lucide="plane" class="w-4 h-4 text-[#F7941D] bg-white px-0.5 absolute transform -translate-y-0.5"></i>
+                        </div>
+                        <div class="w-3 h-3 rounded-full bg-slate-300 z-10"></div>
+                    </div>
+
+                    <p class="text-xs text-slate-500 text-center">
+                        Estimated Delivery: <strong class="text-slate-800">Tuesday, September 29</strong> (All customs duties & import taxes included)
+                    </p>
+                </div>
+
+                <!-- Main Cart Item Card -->
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div id="cartItemsContainer" class="divide-y divide-slate-100">
+                        <!-- Rendered via JS -->
+                    </div>
+                </div>
+
+                <!-- PROPOSAL FEATURE 1: Frequently Bought Together -->
+                <div class="bg-white rounded-xl border border-amber-200/90 shadow-sm p-5 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-gradient-to-l from-[#F7941D] to-amber-500 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-bl-lg shadow-sm">
+                        Frequently Bought Together
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="flex items-center gap-2">
+                            <div class="p-1.5 bg-amber-100 rounded-lg text-[#F7941D]">
+                                <i data-lucide="package-plus" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-slate-900">Complete Your Setup & Save</h3>
+                                <p class="text-xs text-slate-500">Popular accessories frequently bundled with products in your cart.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FBT Horizontal List -->
+                    <div id="fbtGrid" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <!-- Rendered via JS -->
+                    </div>
+                </div>
+
+                <!-- PROPOSAL FEATURE 2: Wishlisted Items Going Out of Stock Soon -->
+                <div class="bg-gradient-to-r from-red-50/70 via-amber-50/50 to-white rounded-xl border border-rose-200 shadow-sm p-5">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-2">
+                            <div class="p-1.5 bg-rose-500 text-white rounded-lg shadow-sm">
+                                <i data-lucide="flame" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm sm:text-base font-bold text-slate-900">From Your Wishlist — <span class="text-rose-600">Going Out of Stock Soon!</span></h3>
+                                <p class="text-xs text-slate-500">Items saved in your wishlist are running low in global warehouses.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wishlist Urgency Cards -->
+                    <div id="wishlistGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Rendered via JS -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Column: Order Summary (Ubuy Spec) -->
+            <div class="lg:col-span-4">
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 sticky top-20 space-y-4">
+                    <h2 class="text-base font-bold text-slate-900 pb-3 border-b border-slate-100 flex items-center justify-between">
+                        <span>Order Summary</span>
+                        <span id="summaryBadge" class="text-xs font-bold text-[#F7941D] bg-orange-50 px-2.5 py-0.5 rounded-full border border-orange-100">1 Item</span>
+                    </h2>
+
+                    <!-- Fast Shipping Upsell Progress Bar -->
+                    <div class="bg-amber-50/80 border border-amber-200/80 p-3 rounded-lg text-xs space-y-2">
+                        <div class="flex items-start gap-2 text-slate-700">
+                            <i data-lucide="truck" class="w-4 h-4 text-[#F7941D] flex-shrink-0 mt-0.5"></i>
+                            <span id="shippingOfferText" class="leading-tight">
+                                Add additional items worth <strong class="text-slate-900 font-bold" id="remainingAmount">INR 6,630.72</strong> to get <strong class="text-emerald-700 font-bold">Fast Shipping</strong> at standard price!
+                            </span>
+                        </div>
+                        <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                            <div id="shippingProgressBar" class="bg-[#F7941D] h-full transition-all duration-500" style="width: 70%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Pricing Breakdown -->
+                    <div class="space-y-2.5 text-xs text-slate-600 border-b border-slate-100 pb-4">
+                        <div class="flex justify-between">
+                            <span>Subtotal</span>
+                            <span id="summarySubtotal" class="font-bold text-slate-900 text-sm">INR 19,478.00</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="flex items-center gap-1">
+                                Shipping Fee
+                                <i data-lucide="help-circle" class="w-3.5 h-3.5 text-slate-400 cursor-pointer" title="Calculated based on volumetric weight from US store"></i>
+                            </span>
+                            <span id="summaryShipping" class="font-semibold text-slate-700">Calculating...</span>
+                        </div>
+
+                        <div id="summaryDiscountRow" class="flex justify-between text-emerald-600 font-medium hidden">
+                            <span>Coupon Discount</span>
+                            <span id="summaryDiscount">-INR 0.00</span>
+                        </div>
+
+                        <div class="pt-2 flex justify-between items-baseline text-slate-900 border-t border-slate-100">
+                            <div>
+                                <span class="text-sm font-bold">Estimated Total</span>
+                                <p class="text-[10px] text-slate-400">Duties & Customs included</p>
+                            </div>
+                            <span id="summaryGrandTotal" class="text-lg font-black text-[#F7941D]">INR 19,478.00</span>
+                        </div>
+                    </div>
+
+                    <!-- Discount / Coupon Box -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-semibold text-slate-700 block">Discount Codes</label>
+                        <p class="text-[11px] text-slate-400">Enter your coupon code if you have one.</p>
+                        <div class="flex gap-2">
+                            <input id="couponInput" type="text" placeholder="Enter coupon code" class="uppercase text-xs flex-1 border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#F7941D]">
+                            <button onclick="applyCoupon()" class="bg-[#F7941D] hover:bg-[#E08213] text-white text-xs font-bold px-4 py-2 rounded-lg transition active:scale-95 shadow-sm">
+                                Apply
+                            </button>
+                        </div>
+                        <p id="couponMsg" class="text-[11px] hidden"></p>
+                    </div>
+
+                    <!-- Primary Action Button -->
+                    <button onclick="proceedToPayment()" class="w-full bg-[#F7941D] hover:bg-[#E08213] active:bg-orange-600 text-white font-bold py-3 px-4 rounded-lg shadow-md shadow-orange-500/20 flex items-center justify-center space-x-2 transition-all transform active:scale-[0.99] text-sm">
+                        <i data-lucide="lock" class="w-4 h-4"></i>
+                        <span>Proceed to Checkout</span>
+                    </button>
+
+                    <!-- PDF Download Button (Matching Ubuy Screenshot) -->
+                    <button onclick="downloadPDF()" class="w-full border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold py-2 px-3 rounded-lg text-xs flex items-center justify-center space-x-2 transition">
+                        <i data-lucide="file-text" class="w-3.5 h-3.5 text-slate-500"></i>
+                        <span>Download Cart to PDF</span>
+                        <i data-lucide="download" class="w-3.5 h-3.5 text-slate-400"></i>
+                    </button>
+
+                    <!-- Security Badges -->
+                    <div class="pt-3 border-t border-slate-100 flex items-center justify-center space-x-4 text-[10px] text-slate-400 font-medium">
+                        <span class="flex items-center gap-1"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i> 100% Buyer Protection</span>
+                        <span class="flex items-center gap-1"><i data-lucide="globe" class="w-3.5 h-3.5 text-indigo-500"></i> Direct US Import</span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl border border-slate-800">
+        <div id="toastIcon" class="p-1.5 bg-[#F7941D] rounded-full text-white">
+            <i data-lucide="check" class="w-4 h-4"></i>
+        </div>
+        <div>
+            <p id="toastTitle" class="text-xs font-bold">Item Added</p>
+            <p id="toastMsg" class="text-[11px] text-slate-300">Your cart total has been updated.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>© 2026 Ubuy.co.in — Global Shopping Simplified. All rights reserved. Interactive Proposal Mockup.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Data Structures
+        let cart = [
+            {
+                id: 'ubuy-main',
+                title: 'Samsung Galaxy A16 4G LTE (128GB + 4GB) International Model SM-A165F/DS Factory Unlocked, 6.7", Dual SIM, 50MP Triple Camera (Case Bundle), Black',
+                brand: 'Samsung',
+                color: 'Black',
+                origin: 'US Store',
+                price: 19478.00,
+                qty: 1,
+                image: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=300&q=80'
+            }
+        ];
+
+        // Proposal 1: Frequently Bought Together
+        const fbtProducts = [
+            {
+                id: 'fbt-1',
+                title: 'Samsung 25W USB-C Super Fast Wall Charger',
+                price: 1299.00,
+                rating: '4.8',
+                image: 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=200&q=80'
+            },
+            {
+                id: 'fbt-2',
+                title: '9H Hardness Tempered Glass Guard (2-Pack)',
+                price: 499.00,
+                rating: '4.7',
+                image: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?auto=format&fit=crop&w=200&q=80'
+            },
+            {
+                id: 'fbt-3',
+                title: 'Heavy Duty Military Grade Armor Case',
+                price: 899.00,
+                rating: '4.9',
+                image: 'https://images.unsplash.com/photo-1541877944-ac82a091518a?auto=format&fit=crop&w=200&q=80'
+            }
+        ];
+
+        // Proposal 2: Wishlist low stock items
+        const wishlistProducts = [
+            {
+                id: 'wish-1',
+                title: 'Samsung Galaxy Buds2 Pro Wireless Earbuds',
+                price: 8999.00,
+                originalPrice: 12999.00,
+                stockLeft: 3,
+                image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=200&q=80'
+            },
+            {
+                id: 'wish-2',
+                title: 'Galaxy Watch6 44mm Bluetooth Smartwatch',
+                price: 18499.00,
+                originalPrice: 24999.00,
+                stockLeft: 2,
+                image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=200&q=80'
+            }
+        ];
+
+        let appliedDiscountRate = 0;
+        const FAST_SHIPPING_THRESHOLD = 26000.00;
+
+        // Render Cart Items
+        function renderCart() {
+            const container = document.getElementById('cartItemsContainer');
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="p-10 text-center text-slate-500">
+                        <i data-lucide="shopping-bag" class="w-12 h-12 mx-auto text-slate-300 mb-3"></i>
+                        <p class="font-bold text-slate-700 text-base">Your shopping cart is empty</p>
+                        <p class="text-xs text-slate-400 mt-1">Add products from Frequently Bought Together or your Wishlist below!</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = cart.map(item => `
+                    <div class="p-4 sm:p-5 flex flex-col sm:flex-row items-start justify-between gap-4">
+                        <div class="flex items-start space-x-4 flex-1">
+                            <img src="${item.image}" alt="${item.title}" class="w-20 h-24 sm:w-24 sm:h-28 object-cover rounded-lg border border-slate-200 flex-shrink-0 bg-white">
+                            <div class="space-y-1">
+                                <span class="text-[10px] font-bold uppercase text-slate-500 tracking-wider">${item.brand || 'Ubuy Direct'}</span>
+                                <h3 class="font-bold text-slate-800 text-xs sm:text-sm leading-snug">${item.title}</h3>
+                                <p class="text-xs text-slate-500">Color: <strong class="text-slate-700">${item.color || 'Standard'}</strong></p>
+                                
+                                <div class="pt-3 flex items-center space-x-4 text-xs font-medium">
+                                    <button onclick="moveToWishlist('${item.id}')" class="text-slate-500 hover:text-[#F7941D] flex items-center gap-1 transition">
+                                        <i data-lucide="heart" class="w-3.5 h-3.5"></i> Move to Wishlist
+                                    </button>
+                                    <span class="text-slate-300">|</span>
+                                    <button onclick="removeFromCart('${item.id}')" class="text-slate-500 hover:text-red-600 flex items-center gap-1 transition">
+                                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-end sm:items-center justify-between sm:justify-end w-full sm:w-auto gap-6 pt-2 sm:pt-0">
+                            <!-- Price -->
+                            <div class="text-right">
+                                <span class="font-extrabold text-slate-900 text-sm sm:text-base">INR ${(item.price * item.qty).toLocaleString('en-IN', {minimumFractionDigits: 2})}</span>
+                            </div>
+
+                            <!-- Qty selector matching Ubuy styling -->
+                            <div class="flex items-center border border-slate-300 rounded-lg overflow-hidden bg-white shadow-sm">
+                                <button onclick="updateQty('${item.id}', -1)" class="px-2.5 py-1 text-slate-600 hover:bg-slate-100 font-bold text-xs">-</button>
+                                <span class="px-3 py-1 text-xs font-bold text-slate-800 bg-slate-50 border-x border-slate-200 min-w-[32px] text-center">${item.qty}</span>
+                                <button onclick="updateQty('${item.id}', 1)" class="px-2.5 py-1 text-slate-600 hover:bg-slate-100 font-bold text-xs">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            updateSummary();
+            lucide.createIcons();
+        }
+
+        // Render Proposal 1: Frequently Bought Together
+        function renderFBT() {
+            const container = document.getElementById('fbtGrid');
+            container.innerHTML = fbtProducts.map(item => {
+                const inCart = cart.some(c => c.id === item.id);
+                return `
+                    <div class="border border-slate-200 rounded-xl p-3 bg-white hover:border-amber-300 hover:shadow-md transition-all flex flex-col justify-between">
+                        <div>
+                            <img src="${item.image}" alt="${item.title}" class="w-full h-24 object-cover rounded-lg mb-2 border border-slate-100">
+                            <h4 class="font-bold text-slate-800 text-xs line-clamp-2">${item.title}</h4>
+                            <p class="text-[10px] text-amber-500 font-semibold mt-1">★ ${item.rating} Rating</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between">
+                            <span class="font-extrabold text-slate-900 text-xs">INR ${item.price.toLocaleString('en-IN')}</span>
+                            <button onclick="addFBTToCart('${item.id}')" ${inCart ? 'disabled' : ''} class="${inCart ? 'bg-slate-200 text-slate-500 cursor-not-allowed' : 'bg-[#F7941D] hover:bg-[#E08213] text-white shadow-sm'} text-[11px] font-bold px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition active:scale-95">
+                                <i data-lucide="${inCart ? 'check' : 'plus'}" class="w-3 h-3"></i>
+                                <span>${inCart ? 'Added' : 'Add to Cart'}</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Render Proposal 2: Wishlist Low Stock
+        function renderWishlist() {
+            const container = document.getElementById('wishlistGrid');
+            container.innerHTML = wishlistProducts.map(item => {
+                const inCart = cart.some(c => c.id === item.id);
+                return `
+                    <div class="bg-white border border-rose-200 rounded-xl p-3 flex items-center gap-3 shadow-sm hover:border-rose-300 transition">
+                        <img src="${item.image}" alt="${item.title}" class="w-16 h-16 object-cover rounded-lg border border-slate-100 bg-slate-50 flex-shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <span class="inline-flex items-center gap-1 bg-rose-100 text-rose-700 text-[10px] font-extrabold px-2 py-0.5 rounded-full mb-1">
+                                <i data-lucide="alert-circle" class="w-3 h-3"></i> Only ${item.stockLeft} left
+                            </span>
+                            <h4 class="font-bold text-slate-800 text-xs truncate">${item.title}</h4>
+                            <div class="flex items-baseline gap-1.5 mt-0.5">
+                                <span class="font-bold text-slate-900 text-xs">INR ${item.price.toLocaleString('en-IN')}</span>
+                                <span class="text-[10px] text-slate-400 line-through">INR ${item.originalPrice.toLocaleString('en-IN')}</span>
+                            </div>
+                        </div>
+                        <button onclick="addWishlistToCart('${item.id}')" ${inCart ? 'disabled' : ''} class="${inCart ? 'bg-slate-200 text-slate-500 cursor-not-allowed' : 'bg-slate-900 hover:bg-slate-800 text-white'} text-[11px] font-bold px-3 py-2 rounded-lg flex items-center gap-1 transition active:scale-95 flex-shrink-0">
+                            <i data-lucide="${inCart ? 'check' : 'shopping-bag'}" class="w-3 h-3"></i>
+                            <span>${inCart ? 'In Cart' : 'Add'}</span>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Action Handlers
+        function updateQty(id, delta) {
+            const item = cart.find(c => c.id === id);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    removeFromCart(id);
+                } else {
+                    renderCart();
+                }
+            }
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(c => c.id !== id);
+            renderCart();
+            renderFBT();
+            renderWishlist();
+            showToast('Item Removed', 'Product was removed from your cart.', 'info');
+        }
+
+        function moveToWishlist(id) {
+            cart = cart.filter(c => c.id !== id);
+            renderCart();
+            renderFBT();
+            renderWishlist();
+            showToast('Wishlisted', 'Item moved to your Ubuy wishlist.', 'info');
+        }
+
+        function addFBTToCart(id) {
+            const prod = fbtProducts.find(p => p.id === id);
+            if (prod && !cart.some(c => c.id === id)) {
+                cart.push({
+                    id: prod.id,
+                    title: prod.title,
+                    brand: 'Ubuy Accessory',
+                    price: prod.price,
+                    qty: 1,
+                    image: prod.image
+                });
+                renderCart();
+                renderFBT();
+                showToast('Frequently Bought Item Added!', `Added ${prod.title}`);
+            }
+        }
+
+        function addWishlistToCart(id) {
+            const prod = wishlistProducts.find(p => p.id === id);
+            if (prod && !cart.some(c => c.id === id)) {
+                cart.push({
+                    id: prod.id,
+                    title: prod.title,
+                    brand: 'Wishlist Item',
+                    price: prod.price,
+                    qty: 1,
+                    image: prod.image
+                });
+                renderCart();
+                renderWishlist();
+                showToast('Wishlist Item Saved!', `Secured 1 of ${prod.stockLeft} remaining units!`);
+            }
+        }
+
+        // Summary Calculations
+        function updateSummary() {
+            const totalQty = cart.reduce((acc, c) => acc + c.qty, 0);
+            const subtotal = cart.reduce((acc, c) => acc + (c.price * c.qty), 0);
+            const discount = subtotal * appliedDiscountRate;
+            const grandTotal = subtotal - discount;
+
+            // Update UI elements
+            document.getElementById('headerCartCount').innerText = totalQty;
+            document.getElementById('cartHeaderQty').innerText = `(${totalQty} item${totalQty !== 1 ? 's' : ''})`;
+            document.getElementById('summaryBadge').innerText = `${totalQty} Item${totalQty !== 1 ? 's' : ''}`;
+
+            document.getElementById('summarySubtotal').innerText = `INR ${subtotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+            document.getElementById('summaryGrandTotal').innerText = `INR ${grandTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+
+            // Fast shipping progress
+            const diff = FAST_SHIPPING_THRESHOLD - subtotal;
+            const percentage = Math.min(100, Math.max(10, (subtotal / FAST_SHIPPING_THRESHOLD) * 100));
+            document.getElementById('shippingProgressBar').style.width = `${percentage}%`;
+
+            if (diff > 0) {
+                document.getElementById('shippingOfferText').innerHTML = `Add additional items worth <strong class="text-slate-900 font-bold">INR ${diff.toLocaleString('en-IN', {minimumFractionDigits: 2})}</strong> to get <strong class="text-emerald-700 font-bold">Fast Shipping</strong> at standard price!`;
+            } else {
+                document.getElementById('shippingOfferText').innerHTML = `🎉 <strong class="text-emerald-700 font-bold">Fast Shipping Unlocked!</strong> You qualify for priority air dispatch from US Store.`;
+            }
+
+            if (appliedDiscountRate > 0 && subtotal > 0) {
+                document.getElementById('summaryDiscountRow').classList.remove('hidden');
+                document.getElementById('summaryDiscount').innerText = `-INR ${discount.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+            } else {
+                document.getElementById('summaryDiscountRow').classList.add('hidden');
+            }
+        }
+
+        function applyCoupon() {
+            const code = document.getElementById('couponInput').value.trim().toUpperCase();
+            const msg = document.getElementById('couponMsg');
+
+            if (code === 'UBUY10' || code === 'GLOBAL10') {
+                appliedDiscountRate = 0.10;
+                msg.innerText = '✓ 10% Global Shipping Coupon Applied!';
+                msg.className = 'text-[11px] text-emerald-600 font-bold block';
+                showToast('Coupon Applied!', '10% discount subtracted from total.');
+            } else if (code === '') {
+                msg.innerText = 'Please enter a coupon code.';
+                msg.className = 'text-[11px] text-red-500 font-medium block';
+            } else {
+                msg.innerText = 'Invalid code. Use UBUY10 for testing.';
+                msg.className = 'text-[11px] text-red-500 font-medium block';
+            }
+
+            updateSummary();
+        }
+
+        function proceedToPayment() {
+            if (cart.length === 0) {
+                showToast('Cart Empty', 'Please add items to your cart first.', 'info');
+                return;
+            }
+            showToast('Redirecting...', 'Connecting to Ubuy secure checkout gateway.', 'success');
+        }
+
+        function downloadPDF() {
+            showToast('Exporting Cart', 'Downloading PDF summary of cart items...', 'info');
+        }
+
+        function showToast(title, message, type = 'success') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastTitle').innerText = title;
+            document.getElementById('toastMsg').innerText = message;
+
+            const icon = document.getElementById('toastIcon');
+            if (type === 'info') {
+                icon.className = 'p-1.5 bg-indigo-600 rounded-full text-white';
+            } else {
+                icon.className = 'p-1.5 bg-[#F7941D] rounded-full text-white';
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            renderCart();
+            renderFBT();
+            renderWishlist();
+        };
+    </script>
+</body>
+</html>
